@@ -9,12 +9,12 @@ public class Main {
 
         // get All movies
 //        allMovies.forEach(movie -> System.out.println(movie));
-        List<Movie> allMovies = movieRepo.getAllMoviesByPreparedStatement();
-        allMovies.forEach(System.out::println);
+      /*  List<Movie> allMovies = movieRepo.getAllMoviesByPreparedStatement();
+        allMovies.forEach(System.out::println);*/
 
         // get a movie by Id
-  /*      Movie movieById = movieRepo.getMovieById(3);
-        System.out.println(movieById == null ? "Siz kiritgan id lik movie topilmadi" : movieById);*/
+        Movie movieById = movieRepo.getMovieByIdByPreparedStatement(3);
+        System.out.println(movieById == null ? "Siz kiritgan id lik movie topilmadi" : movieById);
 
         // Insert a movie
         /*Integer insertMovie = movieRepo.insertMovie(new Movie("Beee",

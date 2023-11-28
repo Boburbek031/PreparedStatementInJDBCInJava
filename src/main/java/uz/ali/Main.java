@@ -1,5 +1,7 @@
 package uz.ali;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Main {
@@ -13,19 +15,19 @@ public class Main {
         allMovies.forEach(System.out::println);*/
 
         // get a movie by Id
-        Movie movieById = movieRepo.getMovieByIdByPreparedStatement(3);
-        System.out.println(movieById == null ? "Siz kiritgan id lik movie topilmadi" : movieById);
+       /* Movie movieById = movieRepo.getMovieByIdByPreparedStatement(3);
+        System.out.println(movieById == null ? "Siz kiritgan id lik movie topilmadi" : movieById)*/;
 
         // Insert a movie
-        /*Integer insertMovie = movieRepo.insertMovie(new Movie("Beee",
-                3203L, LocalDateTime.now(), LocalDate.now(), 6.6f));
+        /*Integer insertMovie = movieRepo.insertMovieByPreparedStatement(new Movie("Expendables",
+                1111L, LocalDateTime.now(), LocalDate.now(), 7.9f));
         System.out.println(insertMovie);*/
 
 
         // Update a movie by Id
-        /*Integer updatedMovie = movieRepo.updateMovieById(7, new Movie("Bumble Bee",
-                5555L, LocalDateTime.now(), LocalDate.now(), 9.9f));
-        System.out.println(updatedMovie.equals(0) ? "Not Updated" : "Updated");*/
+        Integer updatedMovie = movieRepo.updateMovieByIdByPreparedStatement(12, new Movie("new 7777554",
+                5555L, LocalDateTime.now(), LocalDate.now(), 5.8f));
+        System.out.println(updatedMovie.equals(0) ? "Not Updated" : "Updated");
 
         // Delete a movie by ID
 //        System.out.println(movieRepo.deleteMovieById(15));

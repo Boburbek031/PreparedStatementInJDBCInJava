@@ -64,15 +64,17 @@ public class MovieRepo {
 
 
     // Insert a movie by ID
-   /* public Integer insertMovie(Movie movie) {
+    public Integer insertMovieByPreparedStatement(Movie movie) {
         try {
-            preparedStatement = connection.createStatement();
             String insertQuery = "insert into movie (title, duration, created_date, publish_date, rating)" +
-                    " values ('%s', %d, '%s', '%s', '%s')";
-            insertQuery = String.format(insertQuery, movie.getTitle(), movie.getDuration(),
-                    movie.getCreated_date().toString(), movie.getPublish_date().toString(), movie.getRating());
-//            System.out.println(insertQuery);
-            return preparedStatement.executeUpdate(insertQuery);
+                    " values (?, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setString(1, movie.getTitle());
+            preparedStatement.setLong(2, movie.getDuration());
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(movie.getCreated_date()));
+            preparedStatement.setDate(4, Date.valueOf(movie.getPublish_date()));
+            preparedStatement.setFloat(5, movie.getRating());
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -86,18 +88,25 @@ public class MovieRepo {
 
 
     // Update a movie by ID
-    public Integer updateMovieById(Integer id, Movie updatedMovie) {
-        String isThereMovieWithSuchId = "SELECT * FROM movie WHERE id = " + id;
+    public Integer updateMovieByIdByPreparedStatement(Integer id, Movie updatedMovie) {
+        String isThereMovieWithSuchId = "SELECT * FROM movie WHERE id = ?";
         try {
-            preparedStatement = connection.createStatement();
-            resultSet = preparedStatement.executeQuery(isThereMovieWithSuchId);
+            preparedStatement = connection.prepareStatement(isThereMovieWithSuchId);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                String updateQuery = String.format("UPDATE movie SET title = '%s', duration = %d, created_date = '%s', " +
-                                "publish_date = '%s', rating = '%s' WHERE id = %d",
-                        updatedMovie.getTitle(), updatedMovie.getDuration(),
-                        updatedMovie.getCreated_date().toString(), updatedMovie.getPublish_date().toString(),
-                        updatedMovie.getRating().toString(), id);
-                return preparedStatement.executeUpdate(updateQuery);
+
+                String updateQuery = "UPDATE movie SET title = ?, duration = ?, created_date = ?, " +
+                        "publish_date = ?, rating = ? WHERE id = ?";
+
+                preparedStatement = connection.prepareStatement(updateQuery);
+                preparedStatement.setString(1, updatedMovie.getTitle());
+                preparedStatement.setLong(2, updatedMovie.getDuration());
+                preparedStatement.setTimestamp(3, Timestamp.valueOf(updatedMovie.getCreated_date()));
+                preparedStatement.setDate(4, Date.valueOf(updatedMovie.getPublish_date()));
+                preparedStatement.setFloat(5, updatedMovie.getRating());
+                preparedStatement.setInt(6, id);
+                return preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -113,7 +122,7 @@ public class MovieRepo {
 
 
     // Delete a movie by ID
-    public Integer deleteMovieById(Integer id) {
+ /*   public Integer deleteMovieById(Integer id) {
         String query = "DELETE FROM movie WHERE id = " + id;
         try {
             preparedStatement = connection.createStatement();

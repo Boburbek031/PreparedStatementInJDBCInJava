@@ -1,6 +1,9 @@
 package uz.ali;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,12 +14,12 @@ public class MovieRepo {
     private final Connection connection = DatabaseUtil.getConnection();
 
     // Retrieve all movies
-    public List<Movie> getAllMovies() {
+    public List<Movie> getAllMoviesByPreparedStatement() {
         List<Movie> movies = new LinkedList<>();
         String query = "SELECT * FROM movie";
 
         try {
-            statement = connection.createStatement();
+            statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 Movie movie = new Movie(resultSet.getInt("id"),
@@ -40,7 +43,7 @@ public class MovieRepo {
     }
 
     // get a movie by ID
-    public Movie getMovieById(Integer id) {
+   /* public Movie getMovieById(Integer id) {
         String query = "SELECT * FROM movie WHERE id = " + id;
         Movie movie = null;
         try {
@@ -134,7 +137,7 @@ public class MovieRepo {
             }
         }
     }
-
+*/
     // Close the connection
     public void close() throws SQLException {
         if (connection != null) {

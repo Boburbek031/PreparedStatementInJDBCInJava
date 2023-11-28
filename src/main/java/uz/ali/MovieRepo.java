@@ -1,15 +1,12 @@
 package uz.ali;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class MovieRepo {
 
-    static Statement statement = null;
+    static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
     private final Connection connection = DatabaseUtil.getConnection();
 
@@ -19,16 +16,10 @@ public class MovieRepo {
         String query = "SELECT * FROM movie";
 
         try {
-            statement = connection.prepareStatement(query);
-            resultSet = statement.executeQuery(query);
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Movie movie = new Movie(resultSet.getInt("id"),
-                        resultSet.getString("title"),
-                        resultSet.getLong("duration"),
-                        resultSet.getTimestamp("created_date").toLocalDateTime(),
-                        resultSet.getDate("publish_date").toLocalDate(),
-                        resultSet.getFloat("rating"));
-                movies.add(movie);
+                movies.add(extractMovieFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -146,9 +137,19 @@ public class MovieRepo {
         if (resultSet != null) {
             resultSet.close();
         }
-        if (statement != null) {
-            statement.close();
+        if (preparedStatement != null) {
+            preparedStatement.close();
         }
+    }
+
+    // Helper method to extract a Movie object from a ResultSet
+    private Movie extractMovieFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Movie(resultSet.getInt("id"),
+                resultSet.getString("title"),
+                resultSet.getLong("duration"),
+                resultSet.getTimestamp("created_date").toLocalDateTime(),
+                resultSet.getDate("publish_date").toLocalDate(),
+                resultSet.getFloat("rating"));
     }
 
 

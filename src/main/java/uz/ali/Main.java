@@ -1,5 +1,7 @@
 package uz.ali;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -7,8 +9,8 @@ public class Main {
 
         // get All movies
 //        allMovies.forEach(movie -> System.out.println(movie));
-        /*List<Movie> allMovies = movieRepo.getAllMovies();
-        allMovies.forEach(System.out::println);*/
+        List<Movie> allMovies = movieRepo.getAllMoviesByPreparedStatement();
+        allMovies.forEach(System.out::println);
 
         // get a movie by Id
   /*      Movie movieById = movieRepo.getMovieById(3);
@@ -26,7 +28,7 @@ public class Main {
         System.out.println(updatedMovie.equals(0) ? "Not Updated" : "Updated");*/
 
         // Delete a movie by ID
-        System.out.println(movieRepo.deleteMovieById(15));
+//        System.out.println(movieRepo.deleteMovieById(15));
 
 
     }

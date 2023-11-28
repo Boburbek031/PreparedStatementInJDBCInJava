@@ -25,12 +25,12 @@ public class Main {
 
 
         // Update a movie by Id
-        Integer updatedMovie = movieRepo.updateMovieByIdByPreparedStatement(12, new Movie("new 7777554",
+        /*Integer updatedMovie = movieRepo.updateMovieByIdByPreparedStatement(12, new Movie("new 7777554",
                 5555L, LocalDateTime.now(), LocalDate.now(), 5.8f));
-        System.out.println(updatedMovie.equals(0) ? "Not Updated" : "Updated");
+        System.out.println(updatedMovie.equals(0) ? "Not Updated" : "Updated");*/
 
         // Delete a movie by ID
-//        System.out.println(movieRepo.deleteMovieById(15));
+//        System.out.println(movieRepo.deleteMovieByIdByPreparedStatement(12));
 
 
     }

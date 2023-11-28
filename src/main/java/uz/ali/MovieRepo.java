@@ -122,11 +122,12 @@ public class MovieRepo {
 
 
     // Delete a movie by ID
- /*   public Integer deleteMovieById(Integer id) {
-        String query = "DELETE FROM movie WHERE id = " + id;
+    public Integer deleteMovieByIdByPreparedStatement(Integer id) {
+        String query = "DELETE FROM movie WHERE id = ?" ;
         try {
-            preparedStatement = connection.createStatement();
-            return preparedStatement.executeUpdate(query);
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -137,7 +138,7 @@ public class MovieRepo {
             }
         }
     }
-*/
+
     // Close the connection
     public void close() throws SQLException {
         if (connection != null) {
